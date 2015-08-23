@@ -8,6 +8,18 @@ namespace mjc_ld33
 
 	public class Person
 	{
+
+		static string[] forenames = new string[]{
+			"Cersei",  "Elizabeth", "Mary", "Marie", "Jane", "Ellyn", "Alys", "Hildegard",
+			"Amelia", "Catherine", "Beatrix", "Margaret", "Josselyn", "Victoria", "Arabella",
+			"Katrina", "Sofia", "Alexia", "Kaylein", "Seraphina", "Eleanor",
+
+			"Arthur", "John", "Tyrion", "Robert", "George", "William", "Roger", "Oliver",
+			"Henry", "Donald", "Josef", "Xalvador", "Tristan", "Matthew", "Walter", "Leofrick",
+			"Letholdus", "Ronald", "Tybalt", "Ulric", "Vlad"
+		};
+
+
 		private static int person_counter = 0;
 		
 		private int NextPersonID()
@@ -28,25 +40,37 @@ namespace mjc_ld33
 
 		bool alive = true;
 
+		int rank = 0;
+		string forename = "";
+		string surname = "";
+
 		public Castle holding = null;
 		private int dynasty;
 
-		public Person(int set_dynasty)
+		public Person(int set_dynasty, int set_rank, string family_name)
 		{
 			id=NextPersonID();
 			siblings = new List<Person>();
 			children = new List<Person>();
 			dynasty = set_dynasty;
+			rank = set_rank;
+			forename = forenames[Random.Range(0, forenames.GetUpperBound(0)+1)];
+			surname = family_name;
 		}
 
 		public string GetName()
 		{
-			return dynasty.ToString() + "_" + id.ToString();
+			return forename + " " + surname;//dynasty.ToString() + "_" + id.ToString();
 		}
 
 		public int GetDynasty()
 		{
 			return dynasty;
+		}
+
+		public int GetRank()
+		{
+			return rank;
 		}
 
 		private string PrintListPeeps(List<Person> l)
@@ -151,7 +175,7 @@ namespace mjc_ld33
 			morale -= (float)dead_siblings * SIBLING_FACTOR;
 			morale -= (float)dead_children * CHILD_FACTOR;
 			if(!spouse_alive) morale -= SPOUSE_FACTOR;
-
+			if(morale < 0f) morale = 0f;
 			return morale;
 		}
 

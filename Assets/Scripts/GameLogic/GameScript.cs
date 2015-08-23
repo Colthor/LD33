@@ -63,7 +63,7 @@ namespace mjc_ld33
 							p = dg.GetUnlandedMember(ai_dynasties[dynIndex]);
 							if(null != p)
 							{
-								newCastle.max_troops = Random.Range(4, 16);
+								newCastle.max_troops = Random.Range(7 - p.GetRank(), 18 - 2*p.GetRank());
 								newCastle.troops = newCastle.max_troops;
 								newCastle.liege = p;
 								p.holding = newCastle;

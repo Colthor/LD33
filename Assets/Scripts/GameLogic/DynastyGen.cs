@@ -8,6 +8,10 @@ namespace mjc_ld33
 
 	public class DynastyGen
 	{
+		static string[] family_names_src = new string[] {
+			"Lannister", "Osborne", "de Montfort", "Drake", "Gaunt", "Cromwell", "Plantagenet",
+			"Dracula", "Harefoot", "Achan", "Thatcher", "de Wolff", "Eriksson", "Sigurd"
+		};
 		
 		private static int dynasty_counter = 0;
 
@@ -16,16 +20,61 @@ namespace mjc_ld33
 			return ++dynasty_counter;
 		}
 
+		private List<string> availableNames = null;
+
 
 		public Dictionary<int, dynasty> dynastiesGenerated = new Dictionary<int, dynasty>();
+		public Dictionary<int, string> dynastyNames = new Dictionary<int, string>();
 
+
+		public DynastyGen()
+		{
+			availableNames = new List<string>();
+			availableNames.AddRange(family_names_src);
+		}
+
+		private string GetFamilyName()
+		{
+			string name = availableNames[Random.Range(0, availableNames.Count)];
+			availableNames.Remove(name);
+			return name;
+		}
+
+		private void FindSpouse(Person p, List<Person> unmarried, List<Person> married)
+		{
+			const int SPOUSE_FIND_ATTEMPTS = 2;
+			//try to find spouse in unmarried list.
+			bool success = false;
+			int attempts = 0;
+			while (!success && attempts < SPOUSE_FIND_ATTEMPTS && unmarried.Count > 0)
+			{
+				attempts++;
+				Person spouse = unmarried[Random.Range(0, unmarried.Count)];
+				if(spouse.GetDynasty() != p.GetDynasty())
+				{
+					p.AddSpouse(spouse);
+					unmarried.Remove(spouse);
+					unmarried.Remove(p);
+					if(Random.Range(0,2) == 0)
+					{
+						married.Add(p);
+					}
+					else
+					{
+						married.Add(spouse);
+					}
+					success = true;
+				}
+				
+			}
+		}
 
 		//Returns IDs of dynasties generated
 		//TODO: Param for "bonus" family members if we need a larger dynasty (eg. the player)
 		public int[] GenerateIntertwinedDynasties(int dynCount)
 		{
 			float GENERATE_NEW_SPOUSE_CHANCE = 2.0f/( 3f * (float)dynCount);//0.33f;
-			const int SPOUSE_FIND_ATTEMPTS = 2;
+
 			dynasty[] createdDyns = new dynasty[dynCount];
 			int[] dynastyIDs = new int[dynCount];
 
@@ -37,7 +86,8 @@ namespace mjc_ld33
 			{
 				dynastyIDs[i] = NextDynasty();
 				createdDyns[i] = new dynasty();
-				Person head = new Person(dynastyIDs[i]);
+				dynastyNames.Add(dynastyIDs[i], GetFamilyName());
+				Person head = new Person(dynastyIDs[i], 1, dynastyNames[dynastyIDs[i]]);
 				createdDyns[i].Add(head);
 				unmarried.Add(head);
 
@@ -45,7 +95,7 @@ namespace mjc_ld33
 				int numSibs = Random.Range(1, 4);
 				for(int s = 0; s < numSibs; s++)
 				{
-					Person sibling = new Person(dynastyIDs[i]);
+					Person sibling = new Person(dynastyIDs[i], 2, dynastyNames[dynastyIDs[i]]);
 					//head.AddSibling(sibling);
 					createdDyns[i].Add(sibling);
 					unmarried.Add(sibling);
@@ -69,37 +119,15 @@ namespace mjc_ld33
 					{
 						if(Random.Range(0.0f, 1.0f) < GENERATE_NEW_SPOUSE_CHANCE)
 						{ //New spouse out of nowhere
-							Person newSpouse = new Person(dynastyIDs[i]);
+							Person newSpouse = new Person(dynastyIDs[i], 3, dynastyNames[dynastyIDs[i]]);
 							p.AddSpouse(newSpouse);
 							CreatedSpouses.Add(newSpouse);
 							unmarried.Remove(p);
 							married.Add(p);
 						}
 						else if(dynCount > 1)
-						{//try to find spouse in unmarried list.
-							bool success = false;
-							int attempts = 0;
-							while (!success && attempts < SPOUSE_FIND_ATTEMPTS)
-							{
-								attempts++;
-								Person spouse = unmarried[Random.Range(0, unmarried.Count)];
-								if(spouse.GetDynasty() != p.GetDynasty())
-								{
-									p.AddSpouse(spouse);
-									unmarried.Remove(spouse);
-									unmarried.Remove(p);
-									if(Random.Range(0,2) == 0)
-									{
-										married.Add(p);
-									}
-									else
-									{
-										married.Add(spouse);
-									}
-									success = true;
-								}
-
-							}
+						{
+							FindSpouse(p, unmarried, married);
 						}
 					}
 				}
@@ -113,6 +141,8 @@ namespace mjc_ld33
 
 			}
 
+
+			List<Person> addedKids = new List<Person>();
 			//Generate Children
 			foreach(Person p in married)
 			{
@@ -129,13 +159,19 @@ namespace mjc_ld33
 				int numKids = Random.Range(0,5);
 				for(int k = 0; k < numKids; k++)
 				{
-					Person kid = new Person(kidDyn);
+					Person kid = new Person(kidDyn, 4, dynastyNames[kidDyn]);
+					addedKids.Add(kid);
+					unmarried.Add(kid);
 					p.AddChild(kid);
 					createdDyns[kidDynIndex].Add(kid);
 				}
 			}
 
 			//TODO: Another round of marrying here? Add a few more connections.
+			foreach(Person p in addedKids)
+			{
+				if(!p.IsMarried()) FindSpouse(p, unmarried, married);
+			}
 
 			//Add created dynasties to the list of generated dynasties
 			for(int i = 0; i < dynCount; i++)
