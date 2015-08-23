@@ -27,6 +27,9 @@ namespace mjc_ld33
 			{
 				if(null!=liege) liege.DrawConnections();
 			}
+
+			float scale = 0.1f + 0.09f * Morale() * (float) troops;
+			transform.localScale = new Vector3(scale, scale, 1);
 		
 		}
 		void OnGUI()
