@@ -21,7 +21,8 @@ namespace mjc_ld33
 
 		int id;
 		Person spouse = null;
-		Person parent = null;
+		Person parent1 = null;
+		Person parent2 = null;
 		List<Person> siblings;
 		List<Person> children;
 
@@ -91,7 +92,8 @@ namespace mjc_ld33
 		public void AddChild(Person newChild)
 		{
 			foreach(Person p in children) p.AddSibling(newChild);
-			newChild.parent = this;
+			newChild.parent1 = this;
+			newChild.parent2 = spouse;
 			children.Add(newChild);
 			if(null != spouse)
 			{
@@ -153,33 +155,36 @@ namespace mjc_ld33
 			return morale;
 		}
 
+		private void DrawTo(Person p, Color col)
+		{
+			
+			if(null != p && p.IsAlive() && null != p.holding)
+			{
+				Debug.DrawLine(holding.transform.position, p.holding.transform.position, col);
+				holding.DrawConnectionTo(p.holding, col);
+			}
+
+		}
+
 		public void DrawConnections()
 		{
 			if(null != holding)
 			{
-				if(null != spouse && spouse.IsAlive() && null != spouse.holding)
-				{
-					Debug.DrawLine(holding.transform.position, spouse.holding.transform.position, Color.red);
-				}
+				DrawTo(spouse, Color.red);
 				
-				if(null != parent && parent.IsAlive() && null != parent.holding)
-				{
-					Debug.DrawLine(holding.transform.position, parent.holding.transform.position, Color.magenta);
-				}
+				DrawTo(parent1, Color.magenta);
+				DrawTo(parent2, Color.magenta);
+
 
 				foreach(Person p in siblings)
 				{
-					if(p.IsAlive() && null != p.holding)
-					{
-						Debug.DrawLine(holding.transform.position, p.holding.transform.position, Color.blue);
-					}
+					DrawTo(p, Color.blue);
 				}
+
 				foreach(Person p in children)
 				{
-					if(p.IsAlive() && null != p.holding)
-					{
-						Debug.DrawLine(holding.transform.position, p.holding.transform.position, Color.yellow);
-					}
+					DrawTo(p, Color.yellow);
+
 				}
 			}
 		}

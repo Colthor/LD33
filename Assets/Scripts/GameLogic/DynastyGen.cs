@@ -21,6 +21,7 @@ namespace mjc_ld33
 
 
 		//Returns IDs of dynasties generated
+		//TODO: Param for "bonus" family members if we need a larger dynasty (eg. the player)
 		public int[] GenerateIntertwinedDynasties(int dynCount)
 		{
 			float GENERATE_NEW_SPOUSE_CHANCE = 2.0f/( 3f * (float)dynCount);//0.33f;
@@ -45,9 +46,16 @@ namespace mjc_ld33
 				for(int s = 0; s < numSibs; s++)
 				{
 					Person sibling = new Person(dynastyIDs[i]);
-					head.AddSibling(sibling);
+					//head.AddSibling(sibling);
 					createdDyns[i].Add(sibling);
 					unmarried.Add(sibling);
+				}
+				foreach(Person p in createdDyns[i])
+				{
+					foreach(Person q in createdDyns[i])
+					{
+						if( p != q) p.AddSibling(q);
+					}
 				}
 			}
 
@@ -126,6 +134,8 @@ namespace mjc_ld33
 					createdDyns[kidDynIndex].Add(kid);
 				}
 			}
+
+			//TODO: Another round of marrying here? Add a few more connections.
 
 			//Add created dynasties to the list of generated dynasties
 			for(int i = 0; i < dynCount; i++)

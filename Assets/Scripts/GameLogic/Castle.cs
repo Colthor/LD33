@@ -13,22 +13,39 @@ namespace mjc_ld33
 
 		public int troops;
 		public int max_troops;
+		private bool mouse_over = false;
+
+		float emit_rate = .25f;
+		float emit_time;
+		bool emit_this_frame = false;
 
 		// Use this for initialization
 		void Start ()
 		{
+			emit_time = Time.time;
 		
 		}
 		
 		// Update is called once per frame
 		void Update ()
 		{
-			if(controller.CastleIsSelected(this))
+			float scale = 0.1f + 0.09f * Morale() * (float) troops;
+
+			if(emit_time + emit_rate < Time.time)
+			{
+				emit_time = Time.time;
+				emit_this_frame = true;
+				//scale *= 2f;
+			}
+			else
+			{
+				emit_this_frame = false;
+			}
+			//if(controller.CastleIsSelected(this))
 			{
 				if(null!=liege) liege.DrawConnections();
 			}
 
-			float scale = 0.1f + 0.09f * Morale() * (float) troops;
 			transform.localScale = new Vector3(scale, scale, 1);
 		
 		}
@@ -51,7 +68,8 @@ namespace mjc_ld33
 		void OnMouseOver()
 		{
 			//Debug.DrawLine(Vector3.zero, transform.position);
-			if(null!=liege) liege.DrawConnections();
+			//if(null!=liege) liege.DrawConnections();
+			mouse_over = true;
 
 			if(Input.GetMouseButtonDown(0))
 			{ //Left click
@@ -61,6 +79,11 @@ namespace mjc_ld33
 			{
 				controller.SetRightClick(this);
 			}
+		}
+
+		void OnMouseExit()
+		{
+			mouse_over = false;
 		}
 
 		public float Morale()
@@ -96,6 +119,16 @@ namespace mjc_ld33
 			}
 
 			return won;
+		}
+
+		public void DrawConnectionTo(Castle target, Color col)
+		{
+			if(emit_this_frame)
+			{
+				float strength = 0.4f;
+				if (controller.CastleIsSelected(this) || mouse_over) strength = 1.0f;
+				controller.DrawLine(transform.position, target.transform.position, col, strength, 0.0f);
+			}
 		}
 
 	}

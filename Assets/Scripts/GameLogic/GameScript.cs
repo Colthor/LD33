@@ -5,14 +5,18 @@ using System.Collections.Generic;
 namespace mjc_ld33
 {
 
-	public class GameScript : MonoBehaviour {
+	[RequireComponent (typeof (ParticleSystem))]
+	public class GameScript : MonoBehaviour
+	{
 		
 		DynastyGen dg = new DynastyGen();
 		int[] ai_dynasties = null;
 		int player_dynasty = 0;
+		ParticleSystem particleSys = null;
 		// Use this for initialization
 		void Start ()
 		{
+			particleSys = GetComponent<ParticleSystem>();
 			int CASTLES_ACROSS = 5;
 			int CASTLES_DOWN = 5;
 
@@ -107,6 +111,25 @@ namespace mjc_ld33
 			{
 				if(null == c.liege || c.liege.GetDynasty() != player_dynasty) selectedCastle.Attack(c);
 			}
+		}
+
+		public void DrawLine(Vector3 start, Vector3 end, Color col, float strength, float thickness)
+		{
+			const float PARTICLES_PER_STRENGTH_PER_LENGTH=10f;
+			float PARTICLE_SPEED = 0.5f * (int)strength;
+			Vector3 dir = end-start;
+			float length = dir.magnitude;
+			Vector3 dirNorm = dir/length;
+			Vector3 perpendicular = new Vector3(-dirNorm.y, dirNorm.x, 0);
+			col.a = strength;
+			float step = 1.0f/(PARTICLES_PER_STRENGTH_PER_LENGTH);
+			for(float dist = 0; dist <= length - PARTICLE_SPEED; dist += step)
+			{
+				Vector3 pos = start + dirNorm * (dist + Random.Range(0f, step)) + perpendicular * Random.Range(-thickness*0.5f, thickness*0.5f);
+				Vector3 vel = PARTICLE_SPEED * dirNorm;
+				particleSys.Emit(pos, vel, 0.0625f*strength, 1.0f, col);
+			}
+
 		}
 	}
 }//namespace
