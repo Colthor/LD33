@@ -13,9 +13,31 @@ namespace mjc_ld33
 		int[] ai_dynasties = null;
 		int player_dynasty = 0;
 		ParticleSystem particleSys = null;
+		Menu mainMenu;
+		Menu escapeMenu;
 		
 		static Sprite[] BannerSprites = null;
 
+		void ExitGame()
+		{
+			Application.Quit();
+		}
+
+		void MainMenuDoStart()
+		{
+			mainMenu.Disable();
+			StartGame();
+		}
+
+		void InitMenus()
+		{
+			mainMenu = this.gameObject.AddComponent<Menu>();
+			mainMenu.AddButtonItem("Start Game", MainMenuDoStart);
+			mainMenu.AddButtonItem("Quit", ExitGame);
+			
+			escapeMenu = this.gameObject.AddComponent<Menu>();
+			escapeMenu.AddButtonItem("Quit", ExitGame);
+		}
 
 		// Use this for initialization
 		void Start ()
@@ -24,7 +46,11 @@ namespace mjc_ld33
 			
 			BannerSprites = Resources.LoadAll<Sprite>("Graphics/Banners");
 
-			StartGame();
+			InitMenus();
+
+			mainMenu.Enable();
+
+			//StartGame();
 
 		}
 		

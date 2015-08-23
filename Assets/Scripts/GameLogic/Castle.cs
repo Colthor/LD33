@@ -8,11 +8,14 @@ namespace mjc_ld33
 
 	public class Castle : MonoBehaviour
 	{
-		const int CASTLE_MAX_STRENGTH = 16; //Castles over this strength will use the highest value sprite.
+		const int CASTLE_MAX_STRENGTH = 15; //Castles over this strength will use the highest value sprite.
+		
+		static Sprite[] CastleSprites = null;
+		static float StrengthPerSprite = 1.0f;
+
+
 		public GameScript controller = null;
 		public Person liege = null;
-		static Sprite[] CastleSprites = null;
-		float StrengthPerSprite = 1.0f;
 
 		public int troops;
 		public int max_troops;
@@ -37,8 +40,8 @@ namespace mjc_ld33
 		// Update is called once per frame
 		void Update ()
 		{
-			int spriteIndex = (int)(Morale() * (float)troops)/4;
-			if (spriteIndex > 3) spriteIndex = 3;
+			int spriteIndex = (int)(Morale() * (float)troops/StrengthPerSprite);
+			if (spriteIndex > CastleSprites.GetUpperBound(0)) spriteIndex = CastleSprites.GetUpperBound(0);
 			GetComponent<SpriteRenderer>().sprite = CastleSprites[spriteIndex];
 
 			if(emit_time + emit_rate < Time.time)

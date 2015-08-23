@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: fb8ebc3709d9a5846be5605aeb32be04
-timeCreated: 1440339522
+timeCreated: 1440356108
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,8 @@ TextureImporter:
     21300002: CastleStates_1
     21300004: CastleStates_2
     21300006: CastleStates_3
+    21300008: CastleStates_4
+    21300010: CastleStates_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -61,7 +63,7 @@ TextureImporter:
         width: 21
         height: 21
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: CastleStates_1
       rect:
@@ -71,7 +73,7 @@ TextureImporter:
         width: 21
         height: 21
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: CastleStates_2
       rect:
@@ -81,7 +83,7 @@ TextureImporter:
         width: 21
         height: 21
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: CastleStates_3
       rect:
@@ -91,7 +93,27 @@ TextureImporter:
         width: 21
         height: 21
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: CastleStates_4
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 0
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: CastleStates_5
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 0
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

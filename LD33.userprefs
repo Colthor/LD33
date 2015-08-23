@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AddChildren.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameLogic\GameScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\AddChildren.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameLogic\GameScript.cs" Line="41" Column="56" />
+      <File FileName="Assets\Scripts\GameLogic\DynastyGen.cs" Line="30" Column="69" />
+      <File FileName="Assets\Scripts\GameLogic\Castle.cs" Line="58" Column="108" />
+      <File FileName="Assets\Scripts\GameLogic\Person.cs" Line="106" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
