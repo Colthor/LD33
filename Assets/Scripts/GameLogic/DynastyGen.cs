@@ -114,11 +114,18 @@ namespace mjc_ld33
 					createdDyns[i].Add(sibling);
 					unmarried.Add(sibling);
 				}
-				foreach(Person p in createdDyns[i])
+				/*foreach(Person p in createdDyns[i])
 				{
 					foreach(Person q in createdDyns[i])
 					{
 						if( p != q) p.AddSibling(q);
+					}
+				}*/
+				for(int outerPersonInd = 0; outerPersonInd < createdDyns[i].Count; outerPersonInd++)
+				{
+					for(int innerPersonInd = outerPersonInd+1; innerPersonInd < createdDyns[i].Count; innerPersonInd++)
+					{
+						createdDyns[i][outerPersonInd].AddSibling(createdDyns[i][innerPersonInd]);
 					}
 				}
 			}

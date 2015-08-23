@@ -117,6 +117,8 @@ namespace mjc_ld33
 				Camera.main.transform.position = camPos;
 			}
 		
+			DetectEndCondition();
+			DrawSelectionIndicator();
 		}
 
 		void StartGame()
@@ -192,6 +194,43 @@ namespace mjc_ld33
 			}
 		}
 
+
+		private void DetectEndCondition()
+		{
+			int player_lieges = 0;
+			int ai_lieges = 0;
+
+			GameObject[] castles;
+			castles = GameObject.FindGameObjectsWithTag("Castle");
+			foreach(GameObject go in castles)
+			{
+				Castle c = go.GetComponent<Castle>();
+				if(null != c.liege && c.liege.IsAlive())
+				{
+					if(c.liege.GetDynasty() == player_dynasty)
+					{
+						player_lieges++;
+					}
+					else
+					{
+						ai_lieges++;
+					}
+				}
+			}
+			
+			if( 0 == player_lieges)
+			{
+				//Defeat!
+				Debug.Log("Defeat!");
+			}
+			else if(0 == ai_lieges)
+			{
+				//Victory!
+				Debug.Log("Victory!");
+			}
+		}
+
+
 		private Castle selectedCastle = null;
 
 		public bool CastleIsSelected(Castle c)
@@ -224,6 +263,28 @@ namespace mjc_ld33
 			return BannerSprites[dg.dynastyFlags[dynID]];
 		}
 
+		
+		private void DrawSelectionIndicator()
+		{
+			if(null != selectedCastle)
+			{
+				const float CIRCLE_SEGS = 5.0f;
+				const float CIRCLE_RADIUS = 0.25f;
+				const float ROTATE_SPEED = 2f;
+				float radsPerSeg = 2f * Mathf.PI/CIRCLE_SEGS;
+				Vector3 centre = selectedCastle.transform.position;
+
+				for(float angle = 0f; angle < Mathf.PI*2f; angle += radsPerSeg)
+				{
+					float totAng = Time.time*ROTATE_SPEED + angle;
+					Vector3 offset = new Vector3(Mathf.Cos(totAng), Mathf.Sin(totAng), 0f)*CIRCLE_RADIUS;
+					particleSys.Emit(centre+offset, Vector3.zero, 0.0625f, 0.1f, Color.white);
+
+				}
+
+			}
+		}
+
 		public void DrawLine(Vector3 start, Vector3 end, Color col, float strength, float thickness)
 		{
 			const float PARTICLES_PER_STRENGTH_PER_LENGTH=10f;
@@ -242,5 +303,6 @@ namespace mjc_ld33
 			}
 
 		}
-	}
+
+	}//class
 }//namespace

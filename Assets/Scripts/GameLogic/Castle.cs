@@ -65,9 +65,9 @@ namespace mjc_ld33
 				transform.Find("Flag").GetComponent<SpriteRenderer>().sprite = null;
 			}
 
-		
-		
 		}
+
+
 		void OnGUI()
 		{
 			Vector3 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.2f, -0.15f, 0.0f));
