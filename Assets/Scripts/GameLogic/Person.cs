@@ -58,6 +58,18 @@ namespace mjc_ld33
 			surname = family_name;
 		}
 
+		public void ClearUp()
+		{
+			spouse = null;
+			parent1 = null;
+			parent2 = null;
+			siblings.Clear();
+			siblings = null;
+			children.Clear();
+			children = null;
+			holding = null;
+		}
+
 		public string GetName()
 		{
 			return forename + " " + surname;//dynasty.ToString() + "_" + id.ToString();

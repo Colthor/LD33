@@ -40,6 +40,7 @@ public class Menu : MonoBehaviour {
 
 	public void Enable() {m_beEnabledNextFrame = true;}
 	public void Disable() {m_beEnabledNextFrame = false;}
+	public bool IsEnabled() {return m_enabled;}
 
 	public void AddButtonItem(string itemText, MenuActivated callback)
 	{

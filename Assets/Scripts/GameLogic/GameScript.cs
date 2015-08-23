@@ -18,6 +18,30 @@ namespace mjc_ld33
 		
 		static Sprite[] BannerSprites = null;
 
+		void ClearUpGame()
+		{
+			ai_dynasties = null;
+			player_dynasty = 0;
+			foreach (KeyValuePair<int, List<Person>> dynPair in dg.dynastiesGenerated)
+			{
+				foreach(Person p in dynPair.Value)
+				{
+					p.ClearUp();
+				}
+				dynPair.Value.Clear();
+			}
+			dg.dynastiesGenerated.Clear();
+			dg = null;
+
+			GameObject[] castles;
+			castles = GameObject.FindGameObjectsWithTag("Castle");
+			foreach(GameObject c in castles)
+			{
+				Destroy(c);
+			}
+
+		}
+
 		void ExitGame()
 		{
 			Application.Quit();
@@ -29,14 +53,40 @@ namespace mjc_ld33
 			StartGame();
 		}
 
+		void CloseEscapeMenu()
+		{
+			escapeMenu.Disable();
+			ResetCameraPos();
+		}
+
+		void RestartGame()
+		{
+			escapeMenu.Disable();
+			ClearUpGame();
+			StartGame();
+		}
+
 		void InitMenus()
 		{
 			mainMenu = this.gameObject.AddComponent<Menu>();
 			mainMenu.AddButtonItem("Start Game", MainMenuDoStart);
-			mainMenu.AddButtonItem("Quit", ExitGame);
 			
 			escapeMenu = this.gameObject.AddComponent<Menu>();
+			escapeMenu.AddButtonItem("Resume", CloseEscapeMenu);
+			escapeMenu.AddButtonItem("Restart", RestartGame);
+
+#if UNITY_STANDALONE
+			mainMenu.AddButtonItem("Quit", ExitGame);
 			escapeMenu.AddButtonItem("Quit", ExitGame);
+#endif
+		}
+
+		void ResetCameraPos()
+		{
+			
+			Vector3 camPos = Camera.main.transform.position;
+			camPos.x = 0f;
+			Camera.main.transform.position = camPos;
 		}
 
 		// Use this for initialization
@@ -55,12 +105,23 @@ namespace mjc_ld33
 		}
 		
 		// Update is called once per frame
-		void Update () {
+		void Update ()
+		{
+
+			if(Input.GetKeyDown(KeyCode.Escape))
+			{
+				escapeMenu.Enable();
+				
+				Vector3 camPos = Camera.main.transform.position;
+				camPos.x -= 5000f;
+				Camera.main.transform.position = camPos;
+			}
 		
 		}
 
 		void StartGame()
 		{
+			ResetCameraPos();
 			int CASTLES_ACROSS = 5;
 			int CASTLES_DOWN = 4;
 
@@ -140,20 +201,22 @@ namespace mjc_ld33
 
 		public void SetLeftClick(Castle c)
 		{
+			if(escapeMenu.IsEnabled()) return;
 			selectedCastle = c;
-		}
-
-		public Person GetNewLiege(int dynasty)
-		{
-			return dg.GetUnlandedMember(dynasty);
 		}
 
 		public void SetRightClick(Castle c)
 		{
+			if(escapeMenu.IsEnabled()) return;
 			if(null != selectedCastle && null != selectedCastle.liege && selectedCastle.liege.GetDynasty() == player_dynasty)
 			{
 				if(null == c.liege || c.liege.GetDynasty() != player_dynasty) selectedCastle.Attack(c);
 			}
+		}
+		
+		public Person GetNewLiege(int dynasty)
+		{
+			return dg.GetUnlandedMember(dynasty);
 		}
 
 		public Sprite GetBanner(int dynID)
