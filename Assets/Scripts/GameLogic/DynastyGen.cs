@@ -21,16 +21,22 @@ namespace mjc_ld33
 		}
 
 		private List<string> availableNames = null;
+		private List<int> availableBanners = null;
 
 
+		//If this ever gets worked on outside a jam, these could really do with refactoring.
 		public Dictionary<int, dynasty> dynastiesGenerated = new Dictionary<int, dynasty>();
 		public Dictionary<int, string> dynastyNames = new Dictionary<int, string>();
+		public Dictionary<int, int> dynastyFlags = new Dictionary<int, int>();
 
 
-		public DynastyGen()
+
+		public DynastyGen(int set_bannerCount)
 		{
 			availableNames = new List<string>();
 			availableNames.AddRange(family_names_src);
+			availableBanners = new List<int>();
+			for(int i = 0; i < set_bannerCount; i++) availableBanners.Add(i);
 		}
 
 		private string GetFamilyName()
@@ -38,6 +44,13 @@ namespace mjc_ld33
 			string name = availableNames[Random.Range(0, availableNames.Count)];
 			availableNames.Remove(name);
 			return name;
+		}
+
+		private int GetFamilyBanner()
+		{
+			int flag = availableBanners[Random.Range(0, availableBanners.Count)];
+			availableBanners.Remove(flag);
+			return flag;
 		}
 
 		private void FindSpouse(Person p, List<Person> unmarried, List<Person> married)
@@ -87,6 +100,7 @@ namespace mjc_ld33
 				dynastyIDs[i] = NextDynasty();
 				createdDyns[i] = new dynasty();
 				dynastyNames.Add(dynastyIDs[i], GetFamilyName());
+				dynastyFlags.Add(dynastyIDs[i], GetFamilyBanner());
 				Person head = new Person(dynastyIDs[i], 1, dynastyNames[dynastyIDs[i]]);
 				createdDyns[i].Add(head);
 				unmarried.Add(head);

@@ -9,20 +9,40 @@ namespace mjc_ld33
 	public class GameScript : MonoBehaviour
 	{
 		
-		DynastyGen dg = new DynastyGen();
+		DynastyGen dg = null;
 		int[] ai_dynasties = null;
 		int player_dynasty = 0;
 		ParticleSystem particleSys = null;
+		
+		static Sprite[] BannerSprites = null;
+
+
 		// Use this for initialization
 		void Start ()
 		{
 			particleSys = GetComponent<ParticleSystem>();
+			
+			BannerSprites = Resources.LoadAll<Sprite>("Graphics/Banners");
+
+			StartGame();
+
+		}
+		
+		// Update is called once per frame
+		void Update () {
+		
+		}
+
+		void StartGame()
+		{
 			int CASTLES_ACROSS = 5;
 			int CASTLES_DOWN = 4;
 
+			dg = new DynastyGen(BannerSprites.GetUpperBound(0)+1);
+			
 			ai_dynasties = dg.GenerateIntertwinedDynasties(3);
 			player_dynasty = dg.GenerateIntertwinedDynasties(1)[0];
-
+			
 			string dynDebug = "";
 			foreach (KeyValuePair<int, List<Person>> dynPair in dg.dynastiesGenerated)
 			{
@@ -32,13 +52,16 @@ namespace mjc_ld33
 				}
 			}
 			Debug.Log(dynDebug);
-
+			
 			for(int x = 0; x < CASTLES_ACROSS; x++)
 			{
 				for(int y = 0; y < CASTLES_DOWN; y++)
 				{
+					const float PIXEL_SIZE = 1f/16f;
 					Vector2 uc = Random.insideUnitCircle*0.2f;
 					Vector3 pos = new Vector3(x - (float)(CASTLES_ACROSS-1)/2f + uc.x, y - (float)(CASTLES_DOWN-1)/2f + uc.y, 0)*1.4f;
+					pos.x -= pos.x%PIXEL_SIZE;
+					pos.y -= pos.y%PIXEL_SIZE;
 					GameObject gOb = (GameObject)Instantiate(Resources.Load("Prefabs/Castle_prefab"), pos, Quaternion.identity);
 					gOb.name = "Castle ( " + x + ", " + y + ")";
 					Castle newCastle= gOb.GetComponent<Castle>();
@@ -50,7 +73,7 @@ namespace mjc_ld33
 						Debug.Assert(p != null);
 						p.holding = newCastle;
 						newCastle.liege = p;
-
+						
 					}
 					else
 					{
@@ -71,7 +94,7 @@ namespace mjc_ld33
 							}
 							else
 							{
-
+								
 								Debug.Log("Dynasty " + dynIndex + " has ran out of unlanded members.");
 							}
 							count++;
@@ -80,12 +103,6 @@ namespace mjc_ld33
 					}
 				}
 			}
-
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
 		}
 
 		private Castle selectedCastle = null;
@@ -111,6 +128,11 @@ namespace mjc_ld33
 			{
 				if(null == c.liege || c.liege.GetDynasty() != player_dynasty) selectedCastle.Attack(c);
 			}
+		}
+
+		public Sprite GetBanner(int dynID)
+		{
+			return BannerSprites[dg.dynastyFlags[dynID]];
 		}
 
 		public void DrawLine(Vector3 start, Vector3 end, Color col, float strength, float thickness)

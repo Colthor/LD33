@@ -51,14 +51,18 @@ namespace mjc_ld33
 			{
 				emit_this_frame = false;
 			}
-			//if(controller.CastleIsSelected(this))
-			{
-				if(null!=liege) liege.DrawConnections();
-			}
-			
-			//float scale = 0.25f + 0.075f * Morale() * (float) troops;
-			//transform.localScale = new Vector3(scale, scale, 1);
 
+			if(null!=liege)
+			{
+				liege.DrawConnections();
+				transform.Find("Flag").GetComponent<SpriteRenderer>().sprite = controller.GetBanner(liege.GetDynasty());
+			}
+			else
+			{
+				transform.Find("Flag").GetComponent<SpriteRenderer>().sprite = null;
+			}
+
+		
 		
 		}
 		void OnGUI()
@@ -118,7 +122,7 @@ namespace mjc_ld33
 			{
 				target.liege.Kill();
 				target.troops = target.max_troops;
-				this.troops -= (int)target_strength;
+				this.troops -= (int)(target_strength/Morale());
 				target.liege = controller.GetNewLiege(liege.GetDynasty());
 				if(null != target.liege) target.liege.holding = target;
 			}
@@ -127,7 +131,7 @@ namespace mjc_ld33
 				this.liege.Kill();
 				this.liege = null;
 				this.troops = 0;
-				target.troops -= (int)my_strength;
+				target.troops -= (int)(my_strength/target.Morale());
 			}
 
 			return won;
