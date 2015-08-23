@@ -105,7 +105,7 @@ namespace mjc_ld33
 		{
 			if(null != selectedCastle && null != selectedCastle.liege && selectedCastle.liege.GetDynasty() == player_dynasty)
 			{
-				selectedCastle.Attack(c);
+				if(null == c.liege || c.liege.GetDynasty() != player_dynasty) selectedCastle.Attack(c);
 			}
 		}
 	}

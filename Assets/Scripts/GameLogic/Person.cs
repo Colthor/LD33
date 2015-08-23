@@ -21,6 +21,7 @@ namespace mjc_ld33
 
 		int id;
 		Person spouse = null;
+		Person parent = null;
 		List<Person> siblings;
 		List<Person> children;
 
@@ -90,6 +91,7 @@ namespace mjc_ld33
 		public void AddChild(Person newChild)
 		{
 			foreach(Person p in children) p.AddSibling(newChild);
+			newChild.parent = this;
 			children.Add(newChild);
 			if(null != spouse)
 			{
@@ -158,6 +160,11 @@ namespace mjc_ld33
 				if(null != spouse && spouse.IsAlive() && null != spouse.holding)
 				{
 					Debug.DrawLine(holding.transform.position, spouse.holding.transform.position, Color.red);
+				}
+				
+				if(null != parent && parent.IsAlive() && null != parent.holding)
+				{
+					Debug.DrawLine(holding.transform.position, parent.holding.transform.position, Color.magenta);
 				}
 
 				foreach(Person p in siblings)

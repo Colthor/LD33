@@ -82,6 +82,7 @@ namespace mjc_ld33
 				target.troops = target.max_troops;
 				this.troops -= (int)target_strength;
 				target.liege = controller.GetNewLiege(liege.GetDynasty());
+				target.liege.holding = target;
 			}
 			else
 			{
