@@ -8,8 +8,11 @@ namespace mjc_ld33
 
 	public class Castle : MonoBehaviour
 	{
+		const int CASTLE_MAX_STRENGTH = 16; //Castles over this strength will use the highest value sprite.
 		public GameScript controller = null;
 		public Person liege = null;
+		static Sprite[] CastleSprites = null;
+		float StrengthPerSprite = 1.0f;
 
 		public int troops;
 		public int max_troops;
@@ -23,13 +26,20 @@ namespace mjc_ld33
 		void Start ()
 		{
 			emit_time = Time.time;
+			if(null == CastleSprites)
+			{
+				CastleSprites = Resources.LoadAll<Sprite>("Graphics/CastleStates");
+				StrengthPerSprite = (float)CASTLE_MAX_STRENGTH/(float)(CastleSprites.GetUpperBound(0)+1);
+			}
 		
 		}
 		
 		// Update is called once per frame
 		void Update ()
 		{
-			float scale = 0.1f + 0.09f * Morale() * (float) troops;
+			int spriteIndex = (int)(Morale() * (float)troops)/4;
+			if (spriteIndex > 3) spriteIndex = 3;
+			GetComponent<SpriteRenderer>().sprite = CastleSprites[spriteIndex];
 
 			if(emit_time + emit_rate < Time.time)
 			{
@@ -45,8 +55,10 @@ namespace mjc_ld33
 			{
 				if(null!=liege) liege.DrawConnections();
 			}
+			
+			//float scale = 0.25f + 0.075f * Morale() * (float) troops;
+			//transform.localScale = new Vector3(scale, scale, 1);
 
-			transform.localScale = new Vector3(scale, scale, 1);
 		
 		}
 		void OnGUI()
@@ -108,7 +120,7 @@ namespace mjc_ld33
 				target.troops = target.max_troops;
 				this.troops -= (int)target_strength;
 				target.liege = controller.GetNewLiege(liege.GetDynasty());
-				target.liege.holding = target;
+				if(null != target.liege) target.liege.holding = target;
 			}
 			else
 			{

@@ -18,7 +18,7 @@ namespace mjc_ld33
 		{
 			particleSys = GetComponent<ParticleSystem>();
 			int CASTLES_ACROSS = 5;
-			int CASTLES_DOWN = 5;
+			int CASTLES_DOWN = 4;
 
 			ai_dynasties = dg.GenerateIntertwinedDynasties(3);
 			player_dynasty = dg.GenerateIntertwinedDynasties(1)[0];
@@ -37,8 +37,8 @@ namespace mjc_ld33
 			{
 				for(int y = 0; y < CASTLES_DOWN; y++)
 				{
-					Vector2 uc = Random.insideUnitCircle*0.4f;
-					Vector3 pos = new Vector3(x - (float)(CASTLES_ACROSS-1)/2f + uc.x, y - (float)(CASTLES_DOWN-1)/2f + uc.y, 0);
+					Vector2 uc = Random.insideUnitCircle*0.2f;
+					Vector3 pos = new Vector3(x - (float)(CASTLES_ACROSS-1)/2f + uc.x, y - (float)(CASTLES_DOWN-1)/2f + uc.y, 0)*1.4f;
 					GameObject gOb = (GameObject)Instantiate(Resources.Load("Prefabs/Castle_prefab"), pos, Quaternion.identity);
 					gOb.name = "Castle ( " + x + ", " + y + ")";
 					Castle newCastle= gOb.GetComponent<Castle>();

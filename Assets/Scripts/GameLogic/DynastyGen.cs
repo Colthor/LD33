@@ -10,7 +10,7 @@ namespace mjc_ld33
 	{
 		static string[] family_names_src = new string[] {
 			"Lannister", "Osborne", "de Montfort", "Drake", "Gaunt", "Cromwell", "Plantagenet",
-			"Dracula", "Harefoot", "Achan", "Thatcher", "de Wolff", "Eriksson", "Sigurd"
+			"Dracula", "Harefoot", "Achan", "Thatcher", "de Wolff", "Eriksson", "Sigurd", "Orange"
 		};
 		
 		private static int dynasty_counter = 0;
