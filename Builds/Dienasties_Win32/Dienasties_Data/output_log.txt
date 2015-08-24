@@ -1,0 +1,240 @@
+Initialize engine version: 5.1.2f1 (afd2369b692a)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: AMD Radeon R9 200 Series (ID=0x67b1)
+    Vendor:   ATI
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.041 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 2560x1440 60Hz; virtual: 2560x1440 at 0,0
+<RI> Initialized touch support.
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\Docs\Code\LD33\Builds\Dienasties_Win32\Dienasties_Data\Managed\System.dll (this message is harmless)
+Arabella de Wolff
+Spouse: Kaylein de Wolff
+Siblings: Robert de Wolff, 
+Children: Hildegard de Wolff, Tybalt de Wolff, Margaret de Wolff, 
+
+Robert de Wolff
+Spouse: Leofrick Orange
+Siblings: Arabella de Wolff, 
+Children: 
+
+Kaylein de Wolff
+Spouse: Arabella de Wolff
+Siblings: 
+Children: Hildegard de Wolff, Tybalt de Wolff, Margaret de Wolff, 
+
+Hildegard de Wolff
+Spouse: Amelia Orange
+Siblings: Tybalt de Wolff, Margaret de Wolff, 
+Children: 
+
+Tybalt de Wolff
+Spouse: Ellyn Orange
+Siblings: Hildegard de Wolff, Margaret de Wolff, 
+Children: 
+
+Margaret de Wolff
+Spouse: Josselyn Orange
+Siblings: Hildegard de Wolff, Tybalt de Wolff, 
+Children: 
+
+Sofia Dracula
+Spouse: Ellyn Orange
+Siblings: Tybalt Dracula, Sofia Dracula, 
+Children: Kaylein Dracula, 
+
+Tybalt Dracula
+Spouse: Elizabeth Orange
+Siblings: Sofia Dracula, Sofia Dracula, 
+Children: Marie Orange, Josselyn Orange, Ellyn Orange, Amelia Orange, 
+
+Sofia Dracula
+Spouse: Jane Orange
+Siblings: Sofia Dracula, Tybalt Dracula, 
+Children: William Orange, 
+
+Kaylein Dracula
+Spouse: null
+Siblings: 
+Children: 
+
+Leofrick Orange
+Spouse: Robert de Wolff
+Siblings: Elizabeth Orange, Ellyn Orange, Jane Orange, 
+Children: 
+
+Elizabeth Orange
+Spouse: Tybalt Dracula
+Siblings: Leofrick Orange, Ellyn Orange, Jane Orange, 
+Children: Marie Orange, Josselyn Orange, Ellyn Orange, Amelia Orange, 
+
+Ellyn Orange
+Spouse: Sofia Dracula
+Siblings: Leofrick Orange, Elizabeth Orange, Jane Orange, 
+Children: Kaylein Dracula, 
+
+Jane Orange
+Spouse: Sofia Dracula
+Siblings: Leofrick Orange, Elizabeth Orange, Ellyn Orange, 
+Children: William Orange, 
+
+Marie Orange
+Spouse: null
+Siblings: Josselyn Orange, Ellyn Orange, Amelia Orange, 
+Children: 
+
+Josselyn Orange
+Spouse: Margaret de Wolff
+Siblings: Marie Orange, Ellyn Orange, Amelia Orange, 
+Children: 
+
+Ellyn Orange
+Spouse: Tybalt de Wolff
+Siblings: Marie Orange, Josselyn Orange, Amelia Orange, 
+Children: 
+
+Amelia Orange
+Spouse: Hildegard de Wolff
+Siblings: Marie Orange, Josselyn Orange, Ellyn Orange, 
+Children: 
+
+William Orange
+Spouse: null
+Siblings: 
+Children: 
+
+Catherine Thatcher
+Spouse: null
+Siblings: Tybalt Thatcher, Jane Thatcher, Katrina Thatcher, 
+Children: 
+
+Tybalt Thatcher
+Spouse: null
+Siblings: Catherine Thatcher, Jane Thatcher, Katrina Thatcher, 
+Children: 
+
+Jane Thatcher
+Spouse: null
+Siblings: Catherine Thatcher, Tybalt Thatcher, Katrina Thatcher, 
+Children: 
+
+Katrina Thatcher
+Spouse: null
+Siblings: Catherine Thatcher, Tybalt Thatcher, Jane Thatcher, 
+Children: 
+
+
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(0, 0) to person Arabella de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(0, 1) to person Robert de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(0, 2) to person Kaylein de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(0, 3) to person Hildegard de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(1, 0) to person Tybalt de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(1, 1) to person Leofrick Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(1, 2) to person Sofia Dracula
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(1, 3) to person Elizabeth Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(2, 0) to person Ellyn Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(2, 1) to person Tybalt Dracula
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(2, 2) to person Jane Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(2, 3) to person Margaret de Wolff
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Dynasty 0 has ran out of unlanded members.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(3, 0) to person Sofia Dracula
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(3, 1) to person Marie Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(3, 2) to person Kaylein Dracula
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(3, 3) to person Josselyn Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Dynasty 0 has ran out of unlanded members.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Dynasty 1 has ran out of unlanded members.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(4, 0) to person Ellyn Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Dynasty 1 has ran out of unlanded members.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(4, 1) to person Amelia Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
+Adding castle(4, 2) to person William Orange
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 65)
+
