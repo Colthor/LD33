@@ -8,6 +8,7 @@ namespace mjc_ld33
 	[RequireComponent (typeof (ParticleSystem))]
 	public class GameScript : MonoBehaviour
 	{
+		enum GameStates {NOTPLAYING, PLAYING, VICTORY, DEFEAT};
 		
 		DynastyGen dg = null;
 		int[] ai_dynasties = null;
@@ -16,10 +17,19 @@ namespace mjc_ld33
 		Menu mainMenu;
 		Menu escapeMenu;
 		
-		static Sprite[] BannerSprites = null;
+		Sprite[] BannerSprites = null;
+		GUISkin uiSkin = null;
+
+		GameStates currentState = GameStates.NOTPLAYING;
+
+		public GUISkin GetUISkin()
+		{
+			return uiSkin;
+		}
 
 		void ClearUpGame()
 		{
+			currentState = GameStates.NOTPLAYING;
 			ai_dynasties = null;
 			player_dynasty = 0;
 			foreach (KeyValuePair<int, List<Person>> dynPair in dg.dynastiesGenerated)
@@ -69,6 +79,7 @@ namespace mjc_ld33
 		void InitMenus()
 		{
 			mainMenu = this.gameObject.AddComponent<Menu>();
+			mainMenu.MenuTop = 500f;
 			mainMenu.AddButtonItem("Start Game", MainMenuDoStart);
 			
 			escapeMenu = this.gameObject.AddComponent<Menu>();
@@ -79,6 +90,8 @@ namespace mjc_ld33
 			mainMenu.AddButtonItem("Quit", ExitGame);
 			escapeMenu.AddButtonItem("Quit", ExitGame);
 #endif
+			mainMenu.GuiSkin = uiSkin;
+			escapeMenu.GuiSkin = uiSkin;
 		}
 
 		void ResetCameraPos()
@@ -95,6 +108,9 @@ namespace mjc_ld33
 			particleSys = GetComponent<ParticleSystem>();
 			
 			BannerSprites = Resources.LoadAll<Sprite>("Graphics/Banners");
+			uiSkin = Resources.Load<GUISkin>("UI/LD33");
+
+			currentState = GameStates.NOTPLAYING;
 
 			InitMenus();
 
@@ -107,8 +123,9 @@ namespace mjc_ld33
 		// Update is called once per frame
 		void Update ()
 		{
+			if(Input.GetKeyDown(KeyCode.F10)) currentState = GameStates.VICTORY;
 
-			if(Input.GetKeyDown(KeyCode.Escape))
+			if(GameStates.NOTPLAYING != currentState && Input.GetKeyDown(KeyCode.Escape))
 			{
 				escapeMenu.Enable();
 				
@@ -117,12 +134,68 @@ namespace mjc_ld33
 				Camera.main.transform.position = camPos;
 			}
 		
-			DetectEndCondition();
-			DrawSelectionIndicator();
+			if (GameStates.PLAYING == currentState)
+			{
+				DetectEndCondition();
+				DrawSelectionIndicator();
+			}
+
+			if (GameStates.NOTPLAYING != currentState)
+			{
+				DetectEndCondition();
+				DrawSelectionIndicator();
+				GetComponent<SpriteRenderer>().sprite = GetBanner(player_dynasty);
+			}
+			else
+			{
+				GetComponent<SpriteRenderer>().sprite = null;
+			}
+		}
+
+		private int CountPlayerUnlandedFamily()
+		{
+			int count = 0;
+			foreach(Person p in dg.dynastiesGenerated[player_dynasty])
+			{
+				if(p.IsAlive() && null == p.holding) count++;
+			}
+			return count;
+		}
+
+		void OnGUI()
+		{
+			GUI.skin = uiSkin;
+			GUIStyle bigfont = new GUIStyle();
+			bigfont.fontSize = 200;
+
+			switch(currentState)
+			{
+			case GameStates.DEFEAT:
+				GUI.Label(new Rect(45, 5, 1000, 100), "Defeated!");
+				GUI.Label(new Rect(800, 5, 1000, 100), "ESC for menu");
+				break;
+			case GameStates.VICTORY:
+				GUI.Label(new Rect(45, 5, 1000, 100), "Victorious! The land belongs to the " + dg.dynastyNames[player_dynasty] + "s once more!");
+				//GUI.Label(new Rect(800, 5, 1000, 100), "ESC for menu");
+				break;
+			case GameStates.PLAYING:
+				GUI.Label(new Rect(45, 5, 1000, 100), "Unlanded " + dg.dynastyNames[player_dynasty] + "s: " + CountPlayerUnlandedFamily());
+				
+				GUI.Label(new Rect(600, 5, 1000, 100), "<color=red>Spouse</color> <color=blue>Sibling</color> <color=yellow>Child</color> <color=magenta>Parent</color>");
+				break;
+			case GameStates.NOTPLAYING:
+				GUI.Label(new Rect(45, 45, 1000, 100), "Dienasties", bigfont);
+				GUI.Label(new Rect(45, 250, 1000, 100), "Conquer the land that is rightfully yours!");
+				GUI.Label(new Rect(45, 300, 1000, 100), "Your enemies are strong, but maybe family is a weakness?");
+				GUI.Label(new Rect(45, 400, 1000, 100), "Left click selects, right click attacks. Use arrows and space in menus.");
+
+				break;
+			}
 		}
 
 		void StartGame()
 		{
+			currentState = GameStates.PLAYING;
 			ResetCameraPos();
 			int CASTLES_ACROSS = 5;
 			int CASTLES_DOWN = 4;
@@ -148,7 +221,9 @@ namespace mjc_ld33
 				{
 					const float PIXEL_SIZE = 1f/16f;
 					Vector2 uc = Random.insideUnitCircle*0.2f;
-					Vector3 pos = new Vector3(x - (float)(CASTLES_ACROSS-1)/2f + uc.x, y - (float)(CASTLES_DOWN-1)/2f + uc.y, 0)*1.4f;
+					Vector3 pos = new Vector3(x - (float)(CASTLES_ACROSS-1)/2f + uc.x, y - (float)(CASTLES_DOWN-1)/2f + uc.y, 0);
+					pos.x = pos.x * 1.6f - 0.15f;
+					pos.y *= 1.4f;
 					pos.x -= pos.x%PIXEL_SIZE;
 					pos.y -= pos.y%PIXEL_SIZE;
 					GameObject gOb = (GameObject)Instantiate(Resources.Load("Prefabs/Castle_prefab"), pos, Quaternion.identity);
@@ -222,11 +297,13 @@ namespace mjc_ld33
 			{
 				//Defeat!
 				Debug.Log("Defeat!");
+				currentState = GameStates.DEFEAT;
 			}
 			else if(0 == ai_lieges)
 			{
 				//Victory!
 				Debug.Log("Victory!");
+				currentState = GameStates.VICTORY;
 			}
 		}
 
@@ -299,9 +376,31 @@ namespace mjc_ld33
 			{
 				Vector3 pos = start + dirNorm * (dist + Random.Range(0f, step)) + perpendicular * Random.Range(-thickness*0.5f, thickness*0.5f);
 				Vector3 vel = PARTICLE_SPEED * dirNorm;
+				pos.z = 10f;
 				particleSys.Emit(pos, vel, 0.0625f*strength, 1.0f, col);
 			}
 
+		}
+
+		public void DrawAttack(Vector3 start, Vector3 end, Color col)
+		{
+			const float PARTICLES_PER_UNIT=50f;
+			float PARTICLE_SPEED = 0.5f ;
+			Vector3 dir = end-start;
+			float length = dir.magnitude;
+			Vector3 dirNorm = dir/length;
+			Vector3 perpendicular = new Vector3(-dirNorm.y, dirNorm.x, 0);
+			float step = 1.0f/(PARTICLES_PER_UNIT);
+			for(float dist = 0; dist <= length; dist += step)
+			{
+				float scale = dist/length;
+				Vector3 pos = start + dirNorm * dist;
+				Vector3 vel = PARTICLE_SPEED * perpendicular * (2.5f-2f*scale) * Random.Range(0.5f, 1.0f);
+				if(Random.Range(0f, 1.0f) < 0.5f) vel *= -1f;
+				pos.z = 10f;
+				particleSys.Emit(pos, vel, 0.0625f, .1f+.3f*scale, col);
+			}
+			
 		}
 
 	}//class

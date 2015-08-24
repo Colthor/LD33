@@ -9,7 +9,7 @@ namespace mjc_ld33
 	public class DynastyGen
 	{
 		static string[] family_names_src = new string[] {
-			"Lannister", "Osborne", "de Montfort", "Drake", "Gaunt", "Cromwell", "Plantagenet",
+			"Lannister", "Osborne",  "Drake", "Gaunt", "Cromwell",
 			"Dracula", "Harefoot", "Achan", "Thatcher", "de Wolff", "Eriksson", "Sigurd", "Orange"
 		};
 		

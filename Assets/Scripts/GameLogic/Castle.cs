@@ -13,6 +13,8 @@ namespace mjc_ld33
 		static Sprite[] CastleSprites = null;
 		static float StrengthPerSprite = 1.0f;
 
+		static GUIStyle fontStyle = null;
+
 
 		public GameScript controller = null;
 		public Person liege = null;
@@ -33,6 +35,11 @@ namespace mjc_ld33
 			{
 				CastleSprites = Resources.LoadAll<Sprite>("Graphics/CastleStates");
 				StrengthPerSprite = (float)CASTLE_MAX_STRENGTH/(float)(CastleSprites.GetUpperBound(0)+1);
+			}
+			if(null==fontStyle)
+			{
+				fontStyle = new GUIStyle(controller.GetUISkin().label);
+				fontStyle.fontSize = 22;
 			}
 		
 		}
@@ -70,17 +77,25 @@ namespace mjc_ld33
 
 		void OnGUI()
 		{
-			Vector3 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.2f, -0.15f, 0.0f));
-			string labelText = troops + "/" + max_troops + " troops\n" + (int)(Morale()*100f) + "% morale";
+			GUI.skin = controller.GetUISkin();
+			Vector3 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(-0.35f, -0.15f, 0.0f));
+			pos.y = Screen.height - pos.y;
+			string labelText;
 			if(null != liege)
 			{
-				labelText = liege.GetName() + "\n" + labelText;
+				float height = fontStyle.lineHeight - 7f;
+				labelText = liege.GetName() + "\n";
+				GUI.Label(new Rect(pos.x, pos.y ,300,300), labelText, fontStyle);
+				labelText = troops + "/" + max_troops + " troops";
+				GUI.Label(new Rect(pos.x, pos.y + height ,300,300), labelText, fontStyle);
+				labelText =  (int)(Morale()*100f) + "% morale";
+				GUI.Label(new Rect(pos.x, pos.y + 2f*height ,300,300), labelText, fontStyle);
 			}
 			else
 			{
 				labelText = "Abandoned";
+				GUI.Label(new Rect(pos.x, pos.y ,300,300), labelText, fontStyle );
 			}
-			GUI.Label(new Rect(pos.x, Screen.height-pos.y ,300,300), labelText);
 
 		}
 		
@@ -114,11 +129,18 @@ namespace mjc_ld33
 			return morale;
 		}
 
+		public float Strength()
+		{
+			return (float) troops * Morale();
+		}
+
 		//Returns true if we won, false if we didn't.
 		public bool Attack(Castle target)
 		{
-			float my_strength = (float) troops * Morale();
-			float target_strength = (float) target.troops * target.Morale();
+			if(null == target.liege) return true;
+			controller.DrawAttack(this.transform.position, target.transform.position, new Color(.75f, 0f, 0f));
+			float my_strength = Strength();
+			float target_strength = target.Strength();
 			bool won = my_strength > target_strength;
 
 			if(won)
@@ -128,6 +150,13 @@ namespace mjc_ld33
 				this.troops -= (int)(target_strength/Morale());
 				target.liege = controller.GetNewLiege(liege.GetDynasty());
 				if(null != target.liege) target.liege.holding = target;
+			}
+			else if(0 == target_strength)
+			{ //everybody dies from supreme miserableness.
+				target.liege.Kill();
+				this.liege.Kill();
+				target.liege = null;
+				this.liege = null;
 			}
 			else
 			{
